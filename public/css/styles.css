@@ -1,0 +1,153 @@
+body {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 30px;
+}
+
+#capacitors-container {
+  margin: 20px auto;
+  width: 80%;
+}
+
+.capacitor-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.row-number {
+  font-weight: bold;
+  margin-right: 20px;
+  padding-right: 10px;
+}
+
+label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+input[type="number"],
+select {
+  padding: 5px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.remove-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #ff4d4d;
+}
+
+.add-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #4dff4d;
+}
+
+.parallel-sets-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+#parallel-sets {
+  padding: 5px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.calculate-row {
+  display: flex;
+  justify-content: center;
+}
+
+#calculate-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #4d4dff;
+  font-weight: bold;
+  margin: 0;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+}
+
+.button-row button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin: 0;
+}
+
+#results-container {
+  margin: 20px auto;
+  width: 80%;
+  text-align: center;
+}
+
+.center-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+p {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.progress-bar {
+  background-color: #4d4dff;
+  height: 20px;
+  margin-top: 5px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 20px;
+  transition: width 0.3s;
+}
+
+.progress-bar.error {
+  background-color: #ff4d4d;
+}
+
+/* Styles for the "Go back to index" button */
+a {
+  display: inline-block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #4d4dff;
+  text-decoration: none;
+  text-align: center;
+}

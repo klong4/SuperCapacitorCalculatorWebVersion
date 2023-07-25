@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Parsing Page</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    #results {
+      width: 50%;
+      height: 300px;
+      overflow: auto;
+      margin: auto;
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>PDF Parsing Page</h1>
+
+  <form id="uploadForm" enctype="multipart/form-data">
+    <div id="select-file-button">
+      <input type="file" id="fileInput" name="pdf" />
+    </div>
+
+    <div id="start-processing-button">
+      <button type="button" id="start-processing">Start Processing</button>
+    </div>
+
+    <div id="progress-bar-container" style="width: 100%; background-color: #f3f3f3;">
+      <div id="progress-bar" style="width: 0%; height: 20px; background-color: #4caf50;"></div>
+    </div>
+
+    <div id="write-to-csv-button">
+      <button id="write-to-csv">Write to CSV</button>
+    </div>
+  </form>
+
+  <div id="results">
+    <div id="result-lines"></div>
+  </div>
+
+  <a href="/">Go back to index</a>
+
+  <script src="js/preload.js"></script>
+  <script src="js/renderer.js"></script>
+
+  <script>
+    document.getElementById('start-processing').addEventListener('click', () => {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+      console.log('File:', file); // Log the file
+
+      // Start a timer to simulate progress updates
+      const progressInterval = setInterval(() => {
+        const progressBar = document.getElementById('progress-bar');
+        const currentWidth = parseFloat(progressBar.style.width);
+        if (currentWidth < 100) {
+          progressBar.style.width = (currentWidth + 10) + '%';
+        } else {
+          clearInterval(progressInterval);
+        }
+      }, 1000);
+
+      // Send the file path to the main process
+      electron.send('parse-pdf', file.path);
+    });
+
+    // Listen for the 'pdf-parsed' message from the main process
+    electron.receive('pdf-parsed', (output) => {
+      console.log('Output:', output);
+      displayResults(output);
+      // Stop the progress updates when the processing is done
+      clearInterval(progressInterval);
+      document.getElementById('progress-bar').style.width = '100%';
+    });
+
+    document.getElementById('write-to-csv').addEventListener('click', () => {
+      writeToCSV();
+    });
+
+    // Function to write the data to CSV (if needed)
+    async function writeToCSV() {
+      const data = []; // Replace this with the actual data to write
+      window.electron.saveCSV(data).then((filePath) => {
+        console.log('CSV saved to:', filePath);
+      });
+    }
+
+    // Function to display the results on the webpage
+    function displayResults(pageTables) {
+      const resultLines = document.getElementById('result-lines');
+      resultLines.innerHTML = ''; // Clear existing results
+
+      for (const pageTable of pageTables) {
+        for (const result of pageTable.tables) {
+          if (Array.isArray(result)) {
+            // Display table data
+            const tableElement = document.createElement('table');
+            for (const row of result) {
+              const tr = document.createElement('tr');
+              for (const cell of row) {
+                const td = document.createElement('td');
+                td.textContent = cell;
+                tr.appendChild(td);
+              }
+              tableElement.appendChild(tr);
+            }
+            resultLines.appendChild(tableElement);
+          } else {
+            // Display regular text data
+            const p = document.createElement('p');
+            p.textContent = result;
+            resultLines.appendChild(p);
+          }
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
